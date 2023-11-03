@@ -12,13 +12,13 @@ int main () {
     u_sart ();
 
     while (true) {
+        // M0 - PB6, M1 - PB5
+        gpio_clear(GPIOB,  GPIO5|GPIO6);
         gpio_toggle (GPIOD, GPIO14);
-         //uint8_t symb = usart_recv_blocking(USART2);
+        volatile uint8_t symb = usart_recv_blocking(USART2);
+        //usart_send_blocking(USART2,0x36);
 
-        usart_send_blocking(USART2, 0xC3);
-        usart_send_blocking(USART2, 0xC3);
-        usart_send_blocking(USART2, 0xC3);
-for(volatile int i = 0; i<1'000'0; i++){}
+        for(volatile int i = 0; i<1'000'0; i++){}
 
         //
         //symb = usart_recv_blocking(USART2);
@@ -31,6 +31,10 @@ void u_sart(){
     //Светодиод
     rcc_periph_clock_enable(RCC_GPIOD);
     gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO14);
+
+    //пины для M0 и M1
+    rcc_periph_clock_enable(RCC_GPIOB);
+    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE,GPIO5|GPIO6);
 
 
     //УАПП
